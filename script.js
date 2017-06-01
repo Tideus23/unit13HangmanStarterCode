@@ -87,7 +87,12 @@ function onWrongGuess(letter) {
 // 1. if the letter is included in secretWord, call the onCorrectGuess(letter) function
 //    otherwise call onWrongGuess(letter) function
 function judgeGuess(letter) {
-  
+   if(secretWord.includes(letter)){
+           alert("Yes!");
+       
+   } else {
+       alert("No!");
+   }
   
   
   
@@ -127,7 +132,9 @@ function drawHangman() {
 // 3. call the judgeGuess function with letter as an argument
 
 function onKeyDown(event) {
-  
+   var x = event.keyCode;                
+ var y = String.fromCharCode(x); 
+ judgeGuess(y);
   
   
   
@@ -137,7 +144,7 @@ function onKeyDown(event) {
 // Initialize a jQuery keydown event handler 
 //       (Keydown function should take onKeyDown function as an argument)
 $(document).ready(function() {
-prepareGame();
-console.log(secretWord);
-  
+    prepareGame();
+    console.log(secretWord);
+  $("body").keydown(onKeyDown);
 });
