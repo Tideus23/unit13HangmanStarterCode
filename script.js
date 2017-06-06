@@ -64,11 +64,11 @@ function checkIfLost() {
 // 2. call the drawWord function
 // 3. if the checkIfWon() is returns true call the onWin() function 
 function onCorrectGuess(letter) {
-    
-  
-  
-  
-  
+    correctGuesses.push(letter);
+    drawWord();
+    if (checkIfWon()) {
+        onWin();
+    }
 }
 
 // in the onWrongGuess() function below
@@ -76,11 +76,11 @@ function onCorrectGuess(letter) {
 // 2. call the drawHangman function
 // 3. if the checkIfLost() function returns true call the onLose() function 
 function onWrongGuess(letter) {
-    
-  
-  
-  
-  
+    wrongGuesses.push(letter);
+    drawHangman();
+    if (checkIfLost()) {
+        onLose();
+    }
 }
 
 // in the judgeGuess function below
@@ -88,15 +88,10 @@ function onWrongGuess(letter) {
 //    otherwise call onWrongGuess(letter) function
 function judgeGuess(letter) {
    if(secretWord.includes(letter)){
-           alert("Yes!");
-       
+           onCorrectGuess(letter);
    } else {
-       alert("No!");
+       onWrongGuess(letter);
    }
-  
-  
-  
-  
 }
 
 // in the drawWord function below
@@ -105,45 +100,33 @@ function judgeGuess(letter) {
 //    if correctGuesses includes letter append the letter
 //    othewise append and underscore
 function drawWord() {
+        $(".word").empty();
     secretWord.forEach(function() {
         $("#word").append("_");
     });
-  
-  
-  
-  
-  
 }
-
 // in the drawHangman function below
 // 1. define a variable misses equal to the length of wrongGuesses
 // 2. change the src of the img tag with the id hangman 
 //    to the correct image url based on the number of misses
 function drawHangman() {
-  
-  
-  
-  
+  var misses = wrongGuesses.length;
+  $("#hangman").attr("src",images[misses]);
 }
 
 // in the onKeyDown function below
 // 1. define a variable letter an set it equal to the correct letter
 // 2. set letter equal to the upperCase of itself
 // 3. call the judgeGuess function with letter as an argument
-
 function onKeyDown(event) {
    var x = event.keyCode;                
  var y = String.fromCharCode(x); 
  judgeGuess(y);
-  
-  
-  
 }
-
 // Call the prepare game function
 // Initialize a jQuery keydown event handler 
 //       (Keydown function should take onKeyDown function as an argument)
-$(document).ready(function() {
+$(document).ready(function(letter) {
     prepareGame();
     console.log(secretWord);
   $("body").keydown(onKeyDown);
